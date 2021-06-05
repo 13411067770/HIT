@@ -1,0 +1,33 @@
+<script>
+    // 文件上传
+    fileChange (e) {
+        let self = this;
+        e.preventDefault();
+        var SuffixName = this.GetExtensionFileName(e.target.value);
+        if (SuffixName != 'jpg' && SuffixName != 'png' && SuffixName != 'jpeg') {
+            Toast({  message: '请上传正确格式的图片',  position: 'bottom',  duration: 3000});
+            return;
+        };
+        this.file = event.target.files[0];
+        console.log(event.target.files[0].size);
+        if (event.target.files[0].size > 5*1024*1024) { // 此处判断上传文件的大小 , 单位为 b 故要乘以两个1024
+            Toast({  message: '图片最大为5兆',  position: 'bottom',  duration: 3000});
+            this.$refs.referenceUpload.value = null;
+        }
+        let formData = new FormData();
+        formData.append('prefix', 'createCourseCover');
+        formData.append('file', this.file);
+        
+        this.FetchPost('/media/upload', formData).then(res=> {
+            if (res.code == 0) {
+                this.form.cover = res.data;
+                this.$refs.referenceUpload.value = null;
+            } else {
+                Toast({  message: res.message,  position: 'bottom',  duration: 3000});
+            }
+        }).catch(function (error) {
+            self.loading = false;
+       });
+    },
+</script>
+<input ref="referenceUpload" id="file" type="file" accept="image/*" class="file" @change="fileChange($event)">

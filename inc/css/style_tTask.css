@@ -1,0 +1,223 @@
+/* 1903010226全局样式 */
+body{
+	
+}
+/* 1903010226头部区域 */
+#header {
+	height: 80px;
+	background: #1D50A2;
+}
+	/* 1903010226logo区域 */
+	#logo {
+		padding-top: 0;
+		height: 80px;
+		line-height: 80px;
+		padding-left: 100px;
+	}
+
+	#header #logo img {
+		display: inline-block;
+		height: 70%;
+		margin-right: 20px;
+		margin-top: 15px;
+	}
+	/* 1903010226头部菜单栏区域 */
+	#header #meun_header ul {
+		display: flex;
+		margin-top: -50px;
+		margin-left: 500px;
+	}
+
+	#meun_header a {
+		color: #ffffff;
+		display: inline-block;
+		padding-left: 30px;
+		font-size: 18px;
+		font-family: 微软雅黑;
+	}
+	/* 1903010226底部区域 */
+	#foot{
+		display: block;
+		padding: 30px 0 121px;
+		background-color: #444444;
+		width: 100%;
+	}
+		/* 1903010226底部菜单栏区域 */
+		#meun_foot{
+			display: flex;
+			float: left;
+			margin-left: 7%;
+		}
+			#meun_foot ul{
+				margin-right: 40px;
+			}
+				#meun_foot h2{
+					font-family: 微软雅黑;
+					font-size: 16px;
+					margin: 0 0 16px;
+					color: #FFFFFF;
+				}
+				#con_l{
+					float:left;
+				}
+				#con_r{
+					float:right
+				}
+			#meun_foot li{
+				font-size: 14px;
+				padding: 6px 0;
+			}
+				#meun_foot a {
+					color: #7D7D7D;
+					font-family: 微软雅黑;
+				}
+		/* 1903010226外部链接区域 */
+		#expand{
+			float: right;
+			position: absolute;
+			right: 110px;
+		}
+			#expand select{
+				display: block;
+				height: 40px;
+				width: 222px;
+				font-size: 16px;
+				color: #9c9c9c;
+				line-height: 40px;
+				border: 1px solid #535658;
+				padding: 0 30px 0 18px;
+				margin-bottom: 20px;
+				background-color: #444444;
+			}
+			#expand ul{
+				
+			}
+			#expand li {
+				margin: 20px 0;
+			}
+			/* 1903010226分校区区域 */
+			#weihai{
+				background: url(../pic/img23.png);
+			}
+			#shenzhen{
+				background: url(../pic/img22.png);
+			}
+				#weihai,#shenzhen{
+					height: 60px;
+					width: 222px;
+					padding: ;
+				}
+				#weihai a,#shenzhen a{
+					display: block;
+					color: #FFFFFF;
+					padding: 25px 0 25px 60px;
+					background:linear-gradient(to right,transparent,#1d50a2);
+				}
+				#weihai a:hover,#shenzhen a:hover{
+					background:linear-gradient(to right,transparent,#c41b25);
+				}
+	/* 1903010226版权区域 */
+	#copy{
+		width: 100%;
+		text-align: center;
+		background-color: #212426;
+	}
+		#copy a{
+			display: block;
+			padding: 20px 0 10px 0;
+		}
+		#copy span{
+			color: #666666;
+		}
+		#copy span a{
+			color: #666666;
+			display: inline-block;
+			padding: 0 0 50px 0;
+		}
+		#copy span a:hover{
+			color: #cccccc;
+		}
+	/* 1903010226内容区域 */
+	#sth{
+		height: 500px;
+		width: 86%;
+		margin: 10px 100px;
+		border:1px solid #e1e1e1;
+	}
+		/* 1903010226用户信息区域样式 */
+		#sth #user{
+			
+		}
+		#sth #user img{
+			wdith:30px;
+			height: 30px;
+		}
+		#sth #user span{
+			position: relative;
+			top: -10px;
+		}
+		/* 1903010226用户菜单区域 */
+		#sth_meun{
+			display: flex;
+			width: 100%;
+			position: relative;
+			background-color: #aaccdd;
+		}
+			#sth_meun ul{
+				display: flex;
+			}
+				#sth_meun #sth_meun_left li{
+					padding: 10px 0;
+					border-right: solid 1px #7D7D7D;
+					background-color: #aaccdd;
+				}
+				#sth_meun #sth_meun_right
+				{
+					position: absolute;
+					right: 0;
+				}
+				#sth_meun #sth_meun_right li{
+					padding: 10px 0;
+					border-left: solid 1px #7D7D7D;
+					background-color: #aaccdd;
+				}
+				#sth_meun li a{
+					padding: 12px 12px;
+					font-size: 15px;
+					color: black;
+				}
+				#sth_meun li a:hover{
+					background-color: white;
+					color: black;
+				}
+		/* 1903010226用户位置区域 */
+		#sth #place{
+			display: block;
+			padding: 5px 0;
+		}
+		/* 1903010226教学任务查询区域样式 */
+		#class_serach{
+			border:  1px dashed #7D7D7D;
+		}
+		/* 1903010226查询输出区域样式 */
+		#class_table{
+			margin: 10px 0;
+			border:  1px dashed #7D7D7D;
+		}
+			#class_table #output{
+				text-align: center;
+				margin: 0 auto;
+			}
+			#class_table table{
+				text-align: center;
+				width: 100%;
+				height: 60px;
+				margin: 10px auto;
+			}
+		/* 1903010226按钮样式 */
+		.button{
+			background-color: #aaccdd;
+			width: 100px;
+			height: 25px;
+			border: 1px solid white;
+		}

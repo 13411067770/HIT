@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>登录界面</title>
+		<link rel="stylesheet" href="./inc/css/reset.css">
+		<link rel="stylesheet" href="./inc/css/style_login.css">
+		<script type="text/javascript" src="./inc/js/jquery-3.6.0.min.js"></script>
+		<script type="text/javascript" src="./inc/js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="./inc/js/code.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#mylogin").validate({
+					rules:{
+						userid:{
+							required:true,
+							digits:true,
+							minlength:10,
+							maxlength:10,
+						},
+						password:{
+							required:true,
+							minlength:6,
+							maxlength:16,
+						},
+						code:{
+							required:true,
+							minlength:4,
+							maxlength:4,
+							equalTo:"#canvas",
+						},
+					},
+					messages:{
+						userid:{
+							required:"<span class='warning_userid'><img src='inc/pic/warning.png' >请输入账号！</span>",
+							digits:"<span class='warning_userid'><img src='inc/pic/warning.png' >账号只能包含数字！</span>",
+							minlength:"<span class='warning_userid'><img src='inc/pic/warning.png' >账号最短10位！</span>",
+							maxlength:"<span class='warning_userid'><img src='inc/pic/warning.png' >账号最长10位！</span>",
+						},
+						password:{
+							required:"<span class='warning_passwd'><img src='inc/pic/warning.png' >请输入密码！</span>",
+							minlength:"<span class='warning_passwd'><img src='inc/pic/warning.png' >密码最短6位！</span>",
+							maxlength:"<span class='warning_passwd'><img src='inc/pic/warning.png' >密码最长16位！</span>",
+						},
+						code:{
+							required:"<span class='warning_code'><img src='inc/pic/warning.png' >请输入验证码！</span>",
+							equalTo:"<span class='warning_code'><img src='inc/pic/warning.png' >验证码输入有误！请重新输入！</span>",
+							minlength:"<span class='warning_code'><img src='inc/pic/warning.png' >验证码长度为4位！</span>",
+							maxlength:"<span class='warning_code'><img src='inc/pic/warning.png' >验证码长度为4位！</span>",
+						},
+					},
+				});
+			});
+		</script>
+	<style type="text/css">
+		.warning_userid,.warning_passwd,.warning_code{
+			color: #D34032;
+			position:absolute;
+		}
+		.warning_userid{
+			top:105px;
+			left:45px;
+		}
+		.warning_passwd{
+			top:162px;
+			left:45px;
+		}
+		.warning_code{
+			top:260px;
+			left:45px;
+		}
+		.warning_userid img,.warning_passwd img,.warning_code img{
+			height: 15px;
+			width: 15px;
+		}
+		
+		#code{
+			width: 150px;
+			height: 35px;
+			border: 1px solid #ddd;
+			box-sizing: border-box;
+		}
+		#canvas{
+			width: 100px;
+			height: 35px;
+			vertical-align: middle;
+			box-sizing: border-box;
+			border: 1px solid #ddd;
+			cursor: pointer;
+		}
+	</style>
+	</head>
+	<body>
+		<!-- 1903010226头部区域 -->
+		<div id="login_head">
+			<!-- logo区域 -->
+			<img src="./inc/pic/loginlogo.png" style="width:611px;height:80px;">
+			<!-- 1903010226推荐浏览器区域 -->
+			<div id="browser">
+				<p>推荐浏览器：</p>
+				<img src="./inc/pic/ie.png">
+				<p>IE10+</p>
+				<img src="./inc/pic/chrome.png">
+				<P>谷歌</P>
+				<img src="./inc/pic/360.png">
+				<p>360急速</p>
+			</div>
+		</div>
+		<!-- 1903010226登录区域 -->
+		<div id="login">
+			<form method="post" action="doLogin.php" id="mylogin">
+				<h1>用户登录</h1>
+				<input class="login_bar" type="text" name="userid" placeholder="请输入用户名"><br/>
+				<input class="login_bar" type="password" name="password" placeholder="请输入密码:6~16个字符"><br/>
+				<input type="radio" name="status" value="student" checked="checked">学生
+				<input type="radio" name="status" value="teacher">老师<br/>
+				<input type="text" id="code" name="code" value="" placeholder="请输入验证码">
+				<canvas id="canvas" value="" width="100" height="30"></canvas><br>
+				<input id="loginup" class="login_bar" type="submit" value="登录"  style="background-color: #2379bc;border: 0;border-radius: 5px;color: #FFFFFF;cursor: pointer;">
+			</form>
+			</script>
+		</div>
+		<!-- 1903010226版权区域 -->
+		<div id="foot">
+			版权信息： © 2018 哈尔滨工业大学（深圳） 技术支持：深圳希尔智慧科技集团有限公司
+		</div>
+	</body>
+</html>

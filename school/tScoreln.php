@@ -1,0 +1,323 @@
+<?php
+//检验登录凭证
+$loginPath = "../login.html";
+include "../inc/data/session.php";
+//1903010226连接数据库
+include "../inc/data/conn.php";
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>哈尔滨工业大学</title>
+		<link rel="stylesheet" type="text/css" href="../inc/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../inc/css/style_tScoreln.css" />
+	</head>
+	<body>
+		<!-- 1903010226头部 -->
+		<div id="header">
+			<!-- 1903010226logo -->
+			<div id="logo">
+				<a href=" ">
+					<img src="../inc/pic/logo.png" alt="">
+				</a>
+			</div>
+			<!-- 1903010226菜单栏 -->
+			<div id="meun_header">
+				<ul>
+					<li><a href="#">首页</a></li>
+					<li><a href="#">学校概况</a></li>
+					<li><a href="#">国际合作</a></li>
+					<li><a href="#">院系部门</a></li>
+					<li><a href="#">科学研究</a></li>
+					<li><a href="#">教师队伍</a></li>
+					<li><a href="#">人才培养</a></li>
+					<li><a href="#">人才招聘</a></li>
+					<li><a href="#">招生就业</a></li>
+				</ul>
+			</div>
+		</div>
+		<!-- 1903010226内容 -->
+		<div id="sth">
+			<!-- 1903010226用户区域 -->
+			<div id="user">
+				<?php
+				echo <<< END
+					<img src="../inc/portrait/{$_SESSION['Pic']}">
+END;
+				if($_SESSION['Role'] == "teacher"){
+					echo <<< END
+						<span>您好！{$_SESSION['uName']} 工号：{$_SESSION['uId']} 系：{$_SESSION['Dep']}</span>
+END;
+					}
+				else{
+					echo <<< END
+						<span>您好！{$_SESSION['uName']} 学号：{$_SESSION['uId']} 系：{$_SESSION['Dep']} 班级：{$_SESSION['uClass']}</span>
+END;
+				}
+				?>
+			</div>
+			<!-- 1903010226用户菜单栏 -->
+			<div id="sth_meun">
+				<ul id="sth_meun_left">
+					<li><a href="../index.php">个人主页</a></li>
+					<li><a href="./tScoreln.php">教师成绩录入</a></li>
+					<li><a href="./tTask.php">教学任务查询</a></li>
+					<li><a href="#">学生成绩查询</a></li>
+					<li><a href="#">学生课表查询</a></li>
+					<li><a href="./user.php">更改密码</a></li>
+					<li><a href="./portrait.php">更换头像</a></li>
+				</ul>
+				<ul id="sth_meun_right">
+					<li><a href="../exit.php">注销</a></li>
+				</ul>
+			</div>
+			<!-- 1903010226用户位置 -->
+			<?php
+			//查询班级、课程
+			$sql = "select stuclass,lizj_course.cid,cname from lizj_task,lizj_course
+					where lizj_task.teid = ?
+					and lizj_task.cid = lizj_course.cid";
+			if($stmt = $conn->prepare($sql)) {
+				//1903010226绑定参数,,给参数赋值
+				$stmt->bind_param("s",$_SESSION["uId"]);
+				//1903010226绑定结果
+				$stmt->bind_result($stuClass,$cId,$cName);
+				//1903010226执行
+				$stmt->execute();
+				//1903010226保存结果
+				$stmt->store_result();
+			}
+			?>
+			<span id="place">
+				当前位置：教师-教学任务查询
+			</span>
+			<!-- 1903010226课程查询 -->
+			<div id="class_serach">
+				<h2>查询条件</h2>
+				<form action="" method="">
+					请选择录入成绩的课程：
+					<select class="" name="year" required>
+						<?php
+						//<option value="19应用3-2班 web项目开发">19应用3-2班 web项目开发</option>
+						if ($stmt->num_rows >0) {
+							while($stmt->fetch()){
+								echo <<<END
+									<option value="$stuClass$cId">$stuClass $cName</option>
+END;
+							}
+						}
+						else{
+							echo <<<END
+								<option value="">暂无记录</option>
+END;
+						}
+						?>
+					</select>
+					<input type="submit" id="" value="查询" />
+				</form>
+			</div>
+			<!-- 1903010226课程查询输出区域 -->
+			<div id="class_detail">
+				<from>
+					<table border="1" id="class_input" cellspacing="0">
+						 <tr>
+							<td>教师名称：<?=$_SESSION['uName']?></td>
+							<td>课程名称：web项目开发</td>
+						</tr>
+						<tr>
+							<td>班级：19计算机应用技术3-2班</td>
+							<td>学年学期：2020-2021-2</td>
+						</tr>
+						<tr>
+							<td>课程性质：专业课</td>
+							<td>考核方式：过程性</td>
+						</tr>
+						<tr>
+							<td>输入规范提示：数字成绩不得超过100分</td>
+							<td>输入计分制：总评好成绩保存为：</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								平时(%)
+								<input type="text" name="usual_percent" class="grade_percent" />
+								期中(%)
+								<input type="text" name="middle_percent" class="grade_percent" />
+								实验(%)
+								<input type="text" name="test_percent" class="grade_percent" />
+								期末(%)
+								<input type="text" name="finaly_percent" class="grade_percent" />
+								<span>折算总评成绩之前请先清空成绩</span>
+								<input type="button" name="clear" value="清空总评成绩" class="button" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<form action="./insertStu.php" method="post" enctype="multipart/form-data">
+									<input type="button" name="download" class="button" value="成绩下载模板" />
+									Excel成绩文件：
+									<input type="file" name="excel" id="file-input" accept=".xls,.xlsx,.xlt">
+									载入：
+									<input type="submit" class="button" value="载入" />
+								</form>
+							</td>
+						</tr>
+					</table>
+					<!-- 1903010226学生成绩录入 -->
+					<table border="1" id="grade_input">
+						  <tr>
+							<th>序号</th>
+							<th>班级</th>
+							<th>学号</th>
+							<th>姓名</th>
+							<th>平时成绩</th>
+							<th>期中成绩</th>
+							<th>实验成绩</th>
+							<th>期末成绩</th>
+							<th>总评成绩</th>
+						  </tr>
+						  <tr>
+							<td>1</td>
+							<td>19应用3-2班</td>
+							<td>1903010226</td>
+							<td>李梓键</td>
+							<td><input type="text" name="usual_grade" id="" value="" /></td>
+							<td><input type="text" name="middle_grade" id="" value="" /></td>
+							<td><input type="text" name="test_grade" id="" value="" /></td>
+							<td><input type="text" name="finall_grade" id="" value="" /></td>
+							<td><input type="text" name="add_grade" id="" value="" /></td>
+					</table>
+					<!-- 1903010226记录统计 -->
+					<div id="record">总共有5条记录</div>
+					<!-- 1903010226数据更新 -->
+					<div id="update">
+						<input type="button" class="button" value="保存" />
+						<input type="button" class="button" value="成绩校对打印" />
+						<input type="submit" class="button" value="提交" />
+						<input type="button" class="button" value="成绩输出打印" />
+						<input type="button" class="button" value="学生照片查看" />
+					</div>
+				</from>
+			</div>
+		</div>
+		<!-- 1903010226底部菜单栏 -->
+		<div id="foot">
+			<div id="meun_foot">
+				<ul>
+					<h2>学校概况</h2>
+					<div id="con_l">
+						<ul>
+							<li><a herf="#">学校简介</a></li>
+							<li><a herf="#">概况一览</a></li>
+							<li><a herf="#">学校历史</a></li>
+							<li><a herf="#">历任领导</a></li>
+							<li><a herf="#">现任领导</a></li>
+							<li><a herf="#">校长寄语</a></li>
+						</ul>
+					</div>
+					<div id="con_r">
+						<ul>
+							<li><a herf="#">学校标志</a></li>
+							<li><a herf="#">老照片</a></li>
+							<li><a herf="#">校园导游</a></li>
+							<li><a herf="#">校园地图</a></li>
+							<li><a herf="#">城市概览</a></li>
+							<li><a herf="#">工大映像</a></li>
+						</ul>
+					</div>
+				</ul>
+				<ul>
+					<h2>国际合作</h2>
+					<li><a herf="#">交流概况</a></li>
+					<li><a herf="#">国际合作</a></li>
+					<li><a herf="">国际学生</a></li>
+				</ul>
+				<ul>
+					<h2>院系部门</h2>
+					<li><a herf="">党群机构</a></li>
+					<li><a herf="">管理与服务机构</a></li>
+					<li><a herf="">教学与科研机构</a></li>
+				</ul>
+				<ul>
+					<h2>科学研究</h2>
+					<li><a herf="">科研概况</a></li>
+					<li><a herf="">学科专业</a></li>
+					<li><a herf="">重点学科</a></li>
+					<li><a herf="">博士后</a></li>
+					<li><a herf="">学术期刊</a></li>
+				</ul>
+				<ul>
+					<h2>教师队伍</h2>
+					<li><a herf="">总体介绍</a></li>
+					<li><a herf="">杰出人才</a></li>
+					<li><a herf="">博士生导师</a></li>
+					<li><a herf="">教学带头人</a></li>
+					<li><a herf="">教师搜索</a></li>
+				</ul>
+				<ul>
+					<h2>人才培养</h2>
+					<li><a herf="">人才培养概况</a></li>
+					<li><a herf="">本科生教育</a></li>
+					<li><a herf="">研究生教育</a></li>
+					<li><a herf="">国际学生教育</a></li>
+					<li><a herf="">继续教育</a></li>
+					<li><a herf="">奖贷学金</a></li>
+				</ul>
+				<ul style="width: 100px;">
+					<h2>人才招聘</h2>
+					<li><a herf="">青年科学家工作室学术带头人</a></li>
+					<li><a herf="">引才计划青年项目</a></li>
+					<li><a herf="">青年拔尖人才及准聘岗教师</a></li>
+					<li><a herf="">优秀博士后</a></li>
+					<li><a herf="">应聘方式</a></li>
+				</ul>
+				<ul>
+					<h2>招生就业</h2>
+					<li><a herf="">本科生招生</a></li>
+					<li><a herf="">研究生招生</a></li>
+					<li><a herf="">国际学生招生</a></li>
+					<li><a herf="">继续教育招生</a></li>
+					<li><a herf="">就业服务</a></li>
+				</ul>
+			</div>
+			<!-- 1903010226外部链接 -->
+			<div id="expand">
+				<select name="常用链接">
+					<option value="">常用链接</option>
+					<option value="校医院"><a herf="#">校医院</a></option>
+					<option value="设备共享平台"><a herf="#">设备共享平台</a></option>
+					<option value="哈工大报"><a herf="#">哈工大报</a></option>
+					<option value="网络电视"><a herf="#">网络电视</a></option>
+					<option value="学报编辑部"><a herf="#">学报编辑部</a></option>
+					<option value="哈工大学报（社科版）"><a herf="#">哈工大学报（社科版）</a></option>
+				</select>
+				<select>
+					<option value="">校内部门导航</option>
+					<option value="党群机构">--党群机构--</option>
+					<option value="学校办公室">学校办公室</option>
+					<option value="组织部">组织部l</option>
+					<option value="宣传部/教师工作部">宣传部/教师工作部</option>
+					<option value="统战部">统战部</option>
+					<option value="纪委办公室">纪委办公室</option>
+					<option value="学生工作部">学生工作部</option>
+					<option value="研究生工作部">研究生工作部</option>
+					<option value="保卫部">保卫部</option>
+					<option value="工会">工会</option>
+					<option value="机关党委">机关党委</option>
+				</select>
+				<!-- 1903010226校区网页 -->
+				<ul>
+					<li id="weihai"><a href="#">哈尔滨工业大学（威海）</a></li>
+					<li id="shenzhen"><a href="#">哈尔滨工业大学（深圳）</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!-- 1903010226版权声明 -->
+		<div id="copy">
+			<a href="#"><img src="../inc/pic/img1.png"></a>
+			<span>
+				哈尔滨市南岗区西大直街92号 查号台：+86-451-86412114 P.C.:150001 Copyright © 2020 哈尔滨工业大学网络与信息中心
+				<a href="#">黑ICP备05006863号</a>
+			</span>
+		</div>
+	</body>

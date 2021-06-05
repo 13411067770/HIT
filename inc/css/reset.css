@@ -1,0 +1,43 @@
+/* 1903010226统一字体和大小 */
+body {
+	font-size: 12px;
+	font-family: 宋体, arial;
+}
+
+/* 1903010226清除元素空隙 */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/* 1903010226超级链接样式 */
+a {
+	color: #333;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #900;
+}
+
+/* 1903010226去掉列表项目符号 */
+ul,
+ol,
+li {
+	list-style: none;
+}
+
+/* 1903010226万能清除 */
+.clearfix {
+	zoom: 1;
+}
+
+/* 1903010226清除浮动 */
+.clear {
+	clear: both;
+}
+
+/* 1903010226去除图片的边框 */
+img {
+	border: 0;
+}
